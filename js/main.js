@@ -85,7 +85,7 @@ const getAvatarId = (index) => {
   return index;
 };
 
-const similarOffers = Array.from({length: AD_COUNT}, (element, index) => {
+const similarOffers = (amount) => Array.from({length: amount}, (element, index) => {
   const author = {
     avatar: `img/avatars/user${getAvatarId(index + 1)}.png`,
   };
@@ -114,4 +114,4 @@ const similarOffers = Array.from({length: AD_COUNT}, (element, index) => {
   };
 });
 
-console.log(similarOffers);
+similarOffers (AD_COUNT);
