@@ -1,4 +1,4 @@
-import {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray} from './util';
+import {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray} from './util.js';
 
 const AD_COUNT = 10;
 const LAT_MIN = 35.65000;
