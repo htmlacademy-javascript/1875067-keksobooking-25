@@ -14,6 +14,14 @@ const TYPES = [
   'hotel',
 ];
 
+const TRANSLATED_TYPES = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+
 const CHECKIN_TIME = [
   '12:00',
   '13:00',
@@ -48,7 +56,7 @@ const getAvatarId = (index) => {
   return index;
 };
 
-const similarOffers = (amount) => Array.from({length: amount}, (element, index) => {
+const createSimilarOffers = (amount) => Array.from({length: amount}, (element, index) => {
   const author = {
     avatar: `img/avatars/user${getAvatarId(index + 1)}.png`,
   };
@@ -77,4 +85,4 @@ const similarOffers = (amount) => Array.from({length: amount}, (element, index) 
   };
 });
 
-export {similarOffers, AD_COUNT};
+export {TRANSLATED_TYPES, createSimilarOffers, AD_COUNT};
