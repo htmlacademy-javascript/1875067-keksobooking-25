@@ -36,6 +36,11 @@ const roomsOptions = {
   '100': ['0'],
 };
 
+const checkInTime = form.querySelector('#timein');
+const checkOutTime = form.querySelector('#timeout');
+
+// Disabled and enabled mode
+
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
   mapFilersForm.classList.add('ad-form--disabled');
@@ -66,18 +71,21 @@ const enableForm = () => {
   mapFiltersFeatures.removeAttribute('disabled');
 };
 
+// Title validation
+
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
 pristine.addValidator(title, validateTitle, 'Заголовок должен быть от 30 до 100 символов длиной');
 
+// Price validation
 
 const validatePrice = (value) => value.length && parseInt(value, 10) >= minPrice[type.value] && parseInt(value, 10) <= maxPrice;
 
 const getPriceErrorMessage = (value) => {
   if (parseInt(value, 10) > maxPrice) {
-    return `Максимальная стоимость - ${maxPrice} руб.`;
+    return `Максимальная цена - ${maxPrice} руб.`;
   }
-  return `Минимальная стоимость ${minPrice[type.value]} руб`;
+  return `Минимальная цена ${minPrice[type.value]} руб`;
 };
 
 pristine.addValidator(priceField, validatePrice, getPriceErrorMessage);
@@ -89,6 +97,7 @@ const onTypeChange = () => {
 
 form.querySelectorAll('[name="type"]').forEach((item) => item.addEventListener('change', onTypeChange));
 
+// Rooms and guests numbers validation
 
 const validateGuests = () => roomsOptions[roomsField.value].includes(guestsField.value);
 
@@ -106,6 +115,16 @@ pristine.addValidator(guestsField, validateGuests, getGuestsErrorMessage);
 const onRoomsChange = () => pristine.validate(guestsField);
 
 form.querySelectorAll('[name="rooms"]').forEach((item) => item.addEventListener('change', onRoomsChange));
+
+// Check-in and check-out time validation
+
+checkInTime.addEventListener('change', (evt) => {
+  checkOutTime.value = evt.target.value;
+});
+
+checkOutTime.addEventListener('change', (evt) => {
+  checkInTime.value = evt.target.value;
+});
 
 
 form.addEventListener('submit', (evt) => {
