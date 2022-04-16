@@ -34,6 +34,20 @@ const CHECKOUT_TIME = [
   '14:00',
 ];
 
+const ROOMS_NUMBER = [
+  1,
+  2,
+  3,
+  100,
+];
+
+const GUESTS_NUMBER = [
+  1,
+  2,
+  3,
+  'не для гостей'
+];
+
 const FEATURES = [
   'wifi',
   'dishwasher',
@@ -69,8 +83,8 @@ const createSimilarOffers = (amount) => Array.from({length: amount}, (element, i
     address: `${location.lat}, ${location.lng}`,
     price: getRandomIntInclusive(0, 100000),
     type: getRandomArrayElement(TYPES),
-    rooms: getRandomIntInclusive(1, 5),
-    guests: getRandomIntInclusive(1, 10),
+    rooms: getRandomArrayElement(ROOMS_NUMBER),
+    guests: getRandomArrayElement(GUESTS_NUMBER),
     checkin: getRandomArrayElement(CHECKIN_TIME),
     checkout: getRandomArrayElement(CHECKOUT_TIME),
     features: getNewRandomArray(FEATURES),
