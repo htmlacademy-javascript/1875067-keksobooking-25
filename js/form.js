@@ -1,4 +1,5 @@
 const form = document.querySelector('.ad-form');
+const mapFilersForm = document.querySelector('.map__filters');
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -8,6 +9,10 @@ const pristine = new Pristine(form, {
   errorTextTag: 'span',
   errorTextClass: 'form__error',
 });
+
+const formFieldsets = form.querySelectorAll('fieldset');
+const mapFiltersSelect = mapFilersForm.querySelectorAll('select');
+const mapFiltersFeatures = mapFilersForm.querySelector('.map__features');
 
 const title = form.querySelector('#title');
 
@@ -29,6 +34,36 @@ const roomsOptions = {
   '2' : ['1', '2'],
   '3' : ['1', '2', '3'],
   '100': ['0'],
+};
+
+const disableForm = () => {
+  form.classList.add('ad-form--disabled');
+  mapFilersForm.classList.add('ad-form--disabled');
+
+  formFieldsets.forEach((fieldset) => {
+    fieldset.setAttribute('disabled', 'disabled');
+  });
+
+  mapFiltersSelect.forEach((select) => {
+    select.setAttribute('disabled', 'disabled');
+  });
+
+  mapFiltersFeatures.setAttribute('disabled', 'disabled');
+};
+
+const enableForm = () => {
+  form.classList.remove('ad-form--disabled');
+  mapFilersForm.classList.remove('ad-form--disabled');
+
+  formFieldsets.forEach((fieldset) => {
+    fieldset.removeAttribute('disabled');
+  });
+
+  mapFiltersSelect.forEach((select) => {
+    select.removeAttribute('disabled');
+  });
+
+  mapFiltersFeatures.removeAttribute('disabled');
 };
 
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
@@ -81,3 +116,5 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
+disableForm();
+enableForm();
