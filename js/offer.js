@@ -3,7 +3,6 @@ import {TRANSLATED_TYPES, createSimilarOffers, AD_COUNT} from './data.js';
 const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
 const similarCards = createSimilarOffers(AD_COUNT);
 const similarCardsFragment = document.createDocumentFragment();
-const mapCanvas = document.querySelector('#map-canvas');
 
 similarCards.forEach((card) => {
   const offerElement = offerTemplate.cloneNode(true);
@@ -58,4 +57,6 @@ similarCards.forEach((card) => {
   similarCardsFragment.appendChild(offerElement);
 });
 
-mapCanvas.appendChild(similarCardsFragment.children[0]);
+export {similarCards, similarCardsFragment};
+
+
