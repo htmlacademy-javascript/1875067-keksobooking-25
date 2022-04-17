@@ -97,6 +97,33 @@ const onTypeChange = () => {
 
 form.querySelectorAll('[name="type"]').forEach((item) => item.addEventListener('change', onTypeChange));
 
+// Price slider
+
+const sliderElement = document.querySelector('.ad-form__slider');
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: maxPrice,
+  },
+  start: 0,
+  step: 100,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('slide', () => {
+  priceField.value = sliderElement.noUiSlider.get();
+  pristine.validate(priceField);
+});
+
 // Rooms and guests numbers validation
 
 const validateGuests = () => roomsOptions[roomsField.value].includes(guestsField.value);
@@ -135,5 +162,4 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
-disableForm();
-enableForm();
+export {disableForm, enableForm};

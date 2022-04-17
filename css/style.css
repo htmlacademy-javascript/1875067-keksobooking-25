@@ -1053,3 +1053,8 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.form__error {
+  color: #ff5733;
+  font-size: 16px;
+}
