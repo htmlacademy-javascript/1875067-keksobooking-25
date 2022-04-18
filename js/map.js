@@ -1,5 +1,5 @@
 import {disableForm, enableForm} from './form.js';
-import {similarCardsFragment} from './offer.js';
+//import {renderSimilarOffers} from './offer.js';
 
 disableForm();
 
@@ -61,7 +61,9 @@ const removeMainMarker = () => {
   mainPinMarker.remove();
 };
 
-const createMarker = (offersList) => {
+const markerGroup = L.layerGroup().addTo(map);
+
+const createMarker = (offersList,similarCardsFragment) => {
   offersList.forEach((offer, index) => {
     const commonPinMarker = L.marker(
       {
@@ -72,9 +74,10 @@ const createMarker = (offersList) => {
         icon: commonPinIcon,
       },
     );
-    commonPinMarker.addTo(map).bindPopup(similarCardsFragment.children[index]);
+    commonPinMarker.addTo(markerGroup).bindPopup(similarCardsFragment.children[index]);
   });
 };
+
 setMainPinMarker();
 
-export {map, createMarker, MAP_COORDINATES, setMainPinMarker, removeMainMarker};
+export {map, createMarker, MAP_COORDINATES, setMainPinMarker, removeMainMarker, markerGroup};

@@ -23,4 +23,9 @@ const sendData = (onSuccess, onError, body) => {
     .catch(() => onError());
 };
 
+
+// const firstArray = fetch('https://25.javascript.pages.academy/keksobooking/data')
+//   .then((response) => response.json());
+// console.log(firstArray);
+
 export {getData, sendData};
