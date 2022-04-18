@@ -1,5 +1,12 @@
+import {sendData} from './api.js';
+import {onSuccessSubmit, onErrorSubmit} from './util.js';
+import {resetForm} from './form-reset.js';
+
 const form = document.querySelector('.ad-form');
 const mapFilersForm = document.querySelector('.map__filters');
+const submitButton = form.querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
+
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -153,13 +160,43 @@ checkOutTime.addEventListener('change', (evt) => {
   checkInTime.value = evt.target.value;
 });
 
+// Form submit + reset
 
-form.addEventListener('submit', (evt) => {
-  pristine.validate();
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
 });
 
-export {disableForm, enableForm};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccessSubmit();
+          unblockSubmitButton();
+        },
+        () => {
+          onErrorSubmit();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {form, disableForm, enableForm, setFormSubmit, sliderElement};

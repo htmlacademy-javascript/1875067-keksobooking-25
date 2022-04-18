@@ -1,3 +1,9 @@
+import {openSuccessPopup, openErrorPopup} from './messages.js';
+import {resetForm} from './form-reset.js';
+import {renderSimilarOffers} from './offer.js';
+import {AD_COUNT} from './data.js';
+import {createMarker} from './map.js';
+
 const getRandomIntInclusive = (min, max) => {
   if (min < 0 || max < 0) {
     throw Error ('Ошибка ввода данных. Введите положительные значения.');
@@ -37,4 +43,21 @@ const getNewRandomArray = (array) => {
   return finalArray;
 };
 
-export {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray};
+const renderPopups = (offersList) => {
+  renderSimilarOffers(offersList.slice(0, AD_COUNT));
+  createMarker(offersList.slice(0, AD_COUNT));
+};
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const onSuccessSubmit = () => {
+  openSuccessPopup();
+  resetForm();
+//  BLOCK BUTTON
+};
+
+const onErrorSubmit = () => {
+  openErrorPopup();
+};
+
+export {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray, isEscapeKey, onSuccessSubmit, onErrorSubmit, renderPopups};

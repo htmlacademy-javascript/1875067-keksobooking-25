@@ -1,5 +1,5 @@
 import {disableForm, enableForm} from './form.js';
-import {similarCards, similarCardsFragment} from './offer.js';
+import {similarCardsFragment} from './offer.js';
 
 disableForm();
 
@@ -36,37 +36,45 @@ const commonPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const mainPinMarker = L.marker(
-  {
-    lat: 35.6669,
-    lng: 139.7990,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
+let mainPinMarker;
 
-mainPinMarker.addTo(map);
-
-mainPinMarker.on('moveend', (evt) => {
-  ADDRESS.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-});
-
-const createMarker = (card, index) => {
-  const commonPinMarker = L.marker(
+const setMainPinMarker = () => {
+  mainPinMarker = L.marker(
     {
-      lat: card.location.lat,
-      lng: card.location.lng,
+      lat: 35.6669,
+      lng: 139.7990,
     },
     {
-      icon: commonPinIcon,
+      draggable: true,
+      icon: mainPinIcon,
     },
   );
-  commonPinMarker.addTo(map).bindPopup(similarCardsFragment.children[index]);
+
+  mainPinMarker.addTo(map);
+
+  mainPinMarker.on('moveend', (evt) => {
+    ADDRESS.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+  });
 };
 
-similarCards.forEach((card, index) => {
-  createMarker(card, index);
-});
+const removeMainMarker = () => {
+  mainPinMarker.remove();
+};
 
+const createMarker = (offersList) => {
+  offersList.forEach((offer, index) => {
+    const commonPinMarker = L.marker(
+      {
+        lat: offer.location.lat,
+        lng: offer.location.lng,
+      },
+      {
+        icon: commonPinIcon,
+      },
+    );
+    commonPinMarker.addTo(map).bindPopup(similarCardsFragment.children[index]);
+  });
+};
+setMainPinMarker();
+
+export {map, createMarker, MAP_COORDINATES, setMainPinMarker, removeMainMarker};
