@@ -1,7 +1,6 @@
 import {openSuccessPopup, openErrorPopup} from './messages.js';
 import {resetForm} from './form-reset.js';
 import {renderSimilarOffers} from './offer.js';
-import {AD_COUNT} from './data.js';
 import {createMarker} from './map.js';
 import {filterAds} from './filters.js';
 
