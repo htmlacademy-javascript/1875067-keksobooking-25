@@ -46,7 +46,6 @@ const roomsOptions = {
 const checkInTime = form.querySelector('#timein');
 const checkOutTime = form.querySelector('#timeout');
 
-// Disabled and enabled mode
 
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
@@ -78,13 +77,11 @@ const enableForm = () => {
   mapFiltersFeatures.removeAttribute('disabled');
 };
 
-// Title validation
 
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
 pristine.addValidator(title, validateTitle, 'Заголовок должен быть от 30 до 100 символов длиной');
 
-// Price validation
 
 const validatePrice = (value) => value.length && parseInt(value, 10) >= minPrice[type.value] && parseInt(value, 10) <= maxPrice;
 
@@ -104,7 +101,6 @@ const onTypeChange = () => {
 
 form.querySelectorAll('[name="type"]').forEach((item) => item.addEventListener('change', onTypeChange));
 
-// Price slider
 
 const sliderElement = document.querySelector('.ad-form__slider');
 
@@ -131,7 +127,6 @@ sliderElement.noUiSlider.on('slide', () => {
   pristine.validate(priceField);
 });
 
-// Rooms and guests numbers validation
 
 const validateGuests = () => roomsOptions[roomsField.value].includes(guestsField.value);
 
@@ -160,7 +155,6 @@ checkOutTime.addEventListener('change', (evt) => {
   checkInTime.value = evt.target.value;
 });
 
-// Form submit + reset
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
