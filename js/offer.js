@@ -1,9 +1,9 @@
 import {TRANSLATED_TYPES} from './data.js';
 
 const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarCardsFragment = document.createDocumentFragment();
+//const similarCardsFragment = document.createDocumentFragment();
 
-const renderSimilarOffers = (offersList) => {
+const renderSimilarOffers = (offersList,similarCardsFragment) => {
   offersList.forEach((card) => {
     const offerElement = offerTemplate.cloneNode(true);
     offerElement.querySelector('.popup__avatar').src = card.author.avatar;
@@ -59,4 +59,4 @@ const renderSimilarOffers = (offersList) => {
 };
 
 
-export {renderSimilarOffers, similarCardsFragment};
+export {renderSimilarOffers};

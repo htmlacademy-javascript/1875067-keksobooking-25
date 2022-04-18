@@ -3,6 +3,7 @@ import {resetForm} from './form-reset.js';
 import {renderSimilarOffers} from './offer.js';
 import {AD_COUNT} from './data.js';
 import {createMarker} from './map.js';
+import {filterAds} from './filters.js';
 
 const getRandomIntInclusive = (min, max) => {
   if (min < 0 || max < 0) {
@@ -44,8 +45,9 @@ const getNewRandomArray = (array) => {
 };
 
 const renderPopups = (offersList) => {
-  renderSimilarOffers(offersList.slice(0, AD_COUNT));
-  createMarker(offersList.slice(0, AD_COUNT));
+  const similarCardsFragment = document.createDocumentFragment();
+  renderSimilarOffers(filterAds(offersList),similarCardsFragment);
+  createMarker(filterAds(offersList),similarCardsFragment);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -60,4 +62,12 @@ const onErrorSubmit = () => {
   openErrorPopup();
 };
 
-export {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray, isEscapeKey, onSuccessSubmit, onErrorSubmit, renderPopups};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomIntInclusive, getRandomFloatInclusive, getRandomArrayElement, getNewRandomArray, isEscapeKey, onSuccessSubmit, onErrorSubmit, renderPopups, debounce};
