@@ -14,5 +14,3 @@ getData((offers) => {
 });
 
 setFormSubmit(onSuccessSubmit, onErrorSubmit);
-
-
