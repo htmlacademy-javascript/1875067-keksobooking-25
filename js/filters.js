@@ -2,6 +2,7 @@ import {getData} from './api.js';
 import {markerGroup} from './map.js';
 import {renderPopups, debounce} from './util.js';
 import {RERENDER_DELAY, AD_COUNT} from './consts.js';
+import {enableFilterForm} from './form.js';
 
 const filters = document.querySelector('.map__filters');
 const typeFilter = document.querySelector('#housing-type');
@@ -87,8 +88,8 @@ filters.addEventListener('change', debounce(() => {
   markerGroup.clearLayers();
   getData((offers) => {
     renderPopups(offers);
+    enableFilterForm();
   });
-},RERENDER_DELAY)
-);
+},RERENDER_DELAY));
 
 export {filterAds};

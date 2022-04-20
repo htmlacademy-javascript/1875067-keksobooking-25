@@ -1,9 +1,8 @@
-import {TRANSLATED_TYPES} from './data.js';
-// import {TRANSLATED_TYPES} from './consts.js';
+import {TRANSLATED_TYPES} from './consts.js';
 
 const offerTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const renderAddDescription = (offerElement, card) => {
+const renderAdDescription = (offerElement, card) => {
   const offerDescription = offerElement.querySelector('.popup__description');
   offerDescription.textContent = card.offer.description;
 
@@ -12,7 +11,7 @@ const renderAddDescription = (offerElement, card) => {
   }
 };
 
-const renderAddFeatures = (offerElement, card) => {
+const renderAdFeatures = (offerElement, card) => {
   const featuresContainer = offerElement.querySelector('.popup__features ');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
   const userFeaturesList = card.offer.features;
@@ -32,7 +31,7 @@ const renderAddFeatures = (offerElement, card) => {
   }
 };
 
-const renderAddPhotos = (offerElement, card) =>{
+const renderAdPhotos = (offerElement, card) =>{
   const userPhotoList = card.offer.photos;
   const photosContainer = offerElement.querySelector('.popup__photos');
   const photoTemplate = photosContainer.querySelector('.popup__photo');
@@ -60,12 +59,13 @@ const renderSimilarOffers = (offersList,similarCardsFragment) => {
     offerElement.querySelector('.popup__text--capacity').textContent = `${card.offer.rooms} комнаты для ${card.offer.guests} гостей`;
     offerElement.querySelector('.popup__text--time').textContent = `Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}`;
 
-    renderAddDescription (offerElement, card);
-    renderAddFeatures(offerElement, card);
-    renderAddPhotos(offerElement, card);
+    renderAdDescription (offerElement, card);
+    renderAdFeatures(offerElement, card);
+    renderAdPhotos(offerElement, card);
 
     similarCardsFragment.appendChild(offerElement);
   });
 };
+
 
 export {renderSimilarOffers};
