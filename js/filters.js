@@ -1,7 +1,8 @@
-import {AD_COUNT} from './data.js';
-import {renderPopups} from './util.js';
 import {getData} from './api.js';
 import {markerGroup} from './map.js';
+import {renderPopups, debounce} from './util.js';
+import {RERENDER_DELAY, AD_COUNT} from './consts.js';
+import {enableFilterForm} from './form.js';
 
 const filters = document.querySelector('.map__filters');
 const typeFilter = document.querySelector('#housing-type');
@@ -15,7 +16,6 @@ const priceFork = {
   'middle': [10000, 50000],
   'high': [50000, 100000]
 };
-
 
 const filterType = (ad) => {
   if (typeFilter.value === 'any') {
@@ -53,50 +53,43 @@ const filterGuests = (ad) => {
 };
 
 const filterFeatures = (ad) => {
+  const adFeaturesList = ad.offer.features;
   const checkedFields = featuresFilter.querySelectorAll('.map__checkbox:checked');
   const checkedValues = [];
   checkedFields.forEach((field) => {
     checkedValues.push(field.value);
   });
 
-  if (checkedValues.length === 0){
+  if (checkedValues.length === 0) {
     return true;
+  } else if (adFeaturesList) {
+    return checkedValues.every((value) => adFeaturesList.includes(value));
   }
-
-  if (!ad.offer.features && checkedValues.length > 0) {
-    return false;
-  }
-  checkedValues.forEach((value) => {
-    if (ad.offer.features.includes(value)) {
-      return true;
-    }
-  });
   return false;
 };
 
 const filterAds = (ads) => {
   const filteredArray = [];
 
-  for (let i = 0; i < ads.length; i++) {
-    if (filterType(ads[i]) && filterPrice(ads[i]) && filterRooms(ads[i]) && filterGuests(ads[i]) && filterFeatures(ads[i])) {
-      filteredArray.push(ads[i]);
+  for (const ad of ads) {
+    if (filterType(ad) && filterPrice(ad) && filterRooms(ad) && filterGuests(ad) && filterFeatures(ad)) {
+      filteredArray.push(ad);
+
+      if (filteredArray.length === AD_COUNT) {
+        break;
+      }
     }
   }
 
-  let finalFilteredArray = filteredArray;
-
-  if (filteredArray.length > AD_COUNT) {
-    finalFilteredArray = filteredArray.slice(0, AD_COUNT);
-  }
-  return finalFilteredArray;
+  return filteredArray;
 };
 
-
-filters.addEventListener('change', () => {
+filters.addEventListener('change', debounce(() => {
   markerGroup.clearLayers();
   getData((offers) => {
     renderPopups(offers);
+    enableFilterForm();
   });
-});
+},RERENDER_DELAY));
 
 export {filterAds};

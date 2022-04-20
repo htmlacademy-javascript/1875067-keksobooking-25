@@ -1,21 +1,12 @@
-import {disableForm, enableForm} from './form.js';
-//import {renderSimilarOffers} from './offer.js';
-
-disableForm();
+import {enableUserForm} from './form.js';
+import {MAP_COORDINATES, ZOOM_LEVEL, MAIN_MARKER_COORDINATES} from './consts.js';
 
 const ADDRESS = document.querySelector('#address');
-const MAP_COORDINATES = {
-  lat: 35.675,
-  lng: 139.780,
-};
-
 ADDRESS.value = `${MAP_COORDINATES.lat.toFixed(5)}, ${MAP_COORDINATES.lng.toFixed(5)}`;
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enableForm();
-  })
-  .setView(MAP_COORDINATES, 12);
+// Map
+
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -24,26 +15,19 @@ L.tileLayer(
   },
 ).addTo(map);
 
+// Main marker
+
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
 
-const commonPinIcon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
 let mainPinMarker;
 
 const setMainPinMarker = () => {
   mainPinMarker = L.marker(
-    {
-      lat: 35.6669,
-      lng: 139.7990,
-    },
+    MAIN_MARKER_COORDINATES,
     {
       draggable: true,
       icon: mainPinIcon,
@@ -60,6 +44,23 @@ const setMainPinMarker = () => {
 const removeMainMarker = () => {
   mainPinMarker.remove();
 };
+
+const setMap = () => {
+  map.on('load', () => {
+    enableUserForm();
+  })
+    .setView(MAP_COORDINATES, ZOOM_LEVEL);
+
+  setMainPinMarker();
+};
+
+// Common markers
+
+const commonPinIcon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -78,6 +79,5 @@ const createMarker = (offersList,similarCardsFragment) => {
   });
 };
 
-setMainPinMarker();
 
-export {map, createMarker, MAP_COORDINATES, setMainPinMarker, removeMainMarker, markerGroup};
+export {map, createMarker, setMainPinMarker, removeMainMarker, markerGroup, setMap};

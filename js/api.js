@@ -1,13 +1,17 @@
+import {SERVER_GET, SERVER_SEND} from './consts.js';
+import {showAlert} from './util.js';
+
 const getData = (onSuccess) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data')
+  fetch(SERVER_GET)
     .then((response) => response.json())
     .then((offers) => {
       onSuccess(offers);
-    });
+    })
+    .catch(() => showAlert('Не удалось загрузить данные. Попробуйте обновить страницу'));
 };
 
 const sendData = (onSuccess, onError, body) => {
-  fetch('https://25.javascript.pages.academy/keksobooking',
+  fetch(SERVER_SEND,
     {
       method: 'POST',
       body,
@@ -22,10 +26,5 @@ const sendData = (onSuccess, onError, body) => {
     })
     .catch(() => onError());
 };
-
-
-// const firstArray = fetch('https://25.javascript.pages.academy/keksobooking/data')
-//   .then((response) => response.json());
-// console.log(firstArray);
 
 export {getData, sendData};

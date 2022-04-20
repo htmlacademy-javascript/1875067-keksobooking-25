@@ -4,7 +4,9 @@ const successMessageTemplate = document.querySelector('#success').content.queryS
 const successMessage = successMessageTemplate.cloneNode(true);
 const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 const errorMessage = errorMessageTemplate.cloneNode(true);
-const errorButton = document.querySelector('.error__button');
+const errorButton = errorMessage.querySelector('.error__button');
+
+// Success popup
 
 const onSuccessMessageEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -24,6 +26,8 @@ const openSuccessPopup = () => {
   successMessage.addEventListener('click', closeSuccessPopup);
   document.addEventListener('keydown', onSuccessMessageEscKeydown);
 };
+
+// Error message
 
 const onErrorMessageEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -48,5 +52,6 @@ const openErrorPopup = () => {
     errorMessage.remove();
   });
 };
+
 
 export {openSuccessPopup, openErrorPopup};
