@@ -47,13 +47,8 @@ const checkInTime = form.querySelector('#timein');
 const checkOutTime = form.querySelector('#timeout');
 
 
-const disableForm = () => {
-  form.classList.add('ad-form--disabled');
+const disableFilterForm = () => {
   mapFilersForm.classList.add('ad-form--disabled');
-
-  formFieldsets.forEach((fieldset) => {
-    fieldset.setAttribute('disabled', 'disabled');
-  });
 
   mapFiltersSelect.forEach((select) => {
     select.setAttribute('disabled', 'disabled');
@@ -62,19 +57,30 @@ const disableForm = () => {
   mapFiltersFeatures.setAttribute('disabled', 'disabled');
 };
 
-const enableForm = () => {
-  form.classList.remove('ad-form--disabled');
-  mapFilersForm.classList.remove('ad-form--disabled');
+const disableUserForm = () => {
+  form.classList.add('ad-form--disabled');
 
   formFieldsets.forEach((fieldset) => {
-    fieldset.removeAttribute('disabled');
+    fieldset.setAttribute('disabled', 'disabled');
   });
+};
+
+const enableFilterForm = () => {
+  mapFilersForm.classList.remove('ad-form--disabled');
 
   mapFiltersSelect.forEach((select) => {
     select.removeAttribute('disabled');
   });
 
   mapFiltersFeatures.removeAttribute('disabled');
+};
+
+const enableUserForm = () => {
+  form.classList.remove('ad-form--disabled');
+
+  formFieldsets.forEach((fieldset) => {
+    fieldset.removeAttribute('disabled');
+  });
 };
 
 
@@ -125,6 +131,10 @@ noUiSlider.create(sliderElement, {
 sliderElement.noUiSlider.on('slide', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate(priceField);
+});
+
+priceField.addEventListener('input', () => {
+  sliderElement.noUiSlider.set(priceField.value);
 });
 
 
@@ -184,8 +194,8 @@ const setFormSubmit = () => {
           unblockSubmitButton();
         },
         () => {
-          onErrorSubmit();
           unblockSubmitButton();
+          onErrorSubmit();
         },
         new FormData(evt.target),
       );
@@ -193,4 +203,6 @@ const setFormSubmit = () => {
   });
 };
 
-export {form, disableForm, enableForm, setFormSubmit, sliderElement};
+export {form, setFormSubmit, sliderElement};
+export {disableFilterForm, disableUserForm, enableFilterForm, enableUserForm};
+

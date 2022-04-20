@@ -1,21 +1,19 @@
-import {disableForm, enableForm} from './form.js';
-//import {renderSimilarOffers} from './offer.js';
+import {disableFilterForm, disableUserForm, enableUserForm} from './form.js';
+import {MAP_COORDINATES, ZOOM_LEVEL, MAIN_MARKER_COORDINATES} from './consts.js';
 
-disableForm();
+disableFilterForm();
+disableUserForm();
 
 const ADDRESS = document.querySelector('#address');
-const MAP_COORDINATES = {
-  lat: 35.675,
-  lng: 139.780,
-};
+
 
 ADDRESS.value = `${MAP_COORDINATES.lat.toFixed(5)}, ${MAP_COORDINATES.lng.toFixed(5)}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    enableForm();
+    enableUserForm();
   })
-  .setView(MAP_COORDINATES, 12);
+  .setView(MAP_COORDINATES, ZOOM_LEVEL);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -40,10 +38,7 @@ let mainPinMarker;
 
 const setMainPinMarker = () => {
   mainPinMarker = L.marker(
-    {
-      lat: 35.6669,
-      lng: 139.7990,
-    },
+    MAIN_MARKER_COORDINATES,
     {
       draggable: true,
       icon: mainPinIcon,
@@ -80,4 +75,4 @@ const createMarker = (offersList,similarCardsFragment) => {
 
 setMainPinMarker();
 
-export {map, createMarker, MAP_COORDINATES, setMainPinMarker, removeMainMarker, markerGroup};
+export {map, createMarker, setMainPinMarker, removeMainMarker, markerGroup};
